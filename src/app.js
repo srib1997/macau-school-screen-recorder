@@ -1,6 +1,11 @@
 const { desktopCapturer, ipcRenderer, remote } = require('electron')
 const domify = require('domify')
 const ysFixWebmDuration = require('fix-webm-duration')
+const path = require('path')
+const os = require('os')
+
+const desktop = path.join(os.homedir(), 'Desktop')
+const floderName = '.macau-school'
 
 let localStream
 let microAudioStream
@@ -28,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 
 const playVideo = () => {
-  remote.dialog.showOpenDialog({ properties: ['openFile'] }, (filename) => {
+  remote.dialog.showOpenDialog({ properties: ['openFile'], defaultPath: `${desktop}/${floderName}`, filters: [{ name: 'All Files', extensions: ['webm'] }] }, (filename) => {
     console.log(filename)
     const video = document.querySelector('video')
     video.muted = false
