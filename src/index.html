@@ -4,15 +4,31 @@
 <head>
     <title>Macau School</title>
     <meta charset="utf-8">
+    <!-- Photon.css -->
+    <link rel="stylesheet" href="photon.min.css">
     <link rel="stylesheet" href="screen-recorder.css">
     <link rel="stylesheet" href="assets/themify-icons.css">
     <script src="app.js"></script>
 </head>
 
-<body>
 
-    <div class="row">
+
+<body>
+    <div class='row'>
+        <!-- <video id="video" controls class="video-js" data-setup='{}'></video> -->
         <video id="video" controls class="video-js" data-setup='{}'></video>
+        <table id="table" class="table-striped" hidden="true">
+            <thead>
+              <tr>
+                <th>Name</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td></td>
+              </tr>
+            </tbody>
+        </table>    
     </div>
     <div class="row">
         <button id="record-desktop" title="Record Desktop"><i class="ti-desktop"></i></button>
@@ -20,6 +36,7 @@
         <button id="record-camera"><i class="ti-video-camera" title="Record Camera"></i></button> -->
         <!-- <button id="record-desktop" title="Record Desktop">錄取營幕</button> -->
         <button id="play-video"><i class="ti-upload" title="Load Video"></i></button>
+        <button id="list-video-floder">list</button>
         <div class="ck-button" id="micro-audio-btn">
             <label> 
               <input type="checkbox" id="micro-audio" value="false">
