@@ -1,0 +1,57 @@
+{
+  "name": "electron-screen-recorder",
+  "description": "Screen Recorder",
+  "version": "0.0.1",
+  "author": "srib",
+  "license": "BSD",
+  "keywords": [
+    "Electron",
+    "DesktopCapture",
+    "Screen Recorder",
+    "WebRTC"
+  ],
+  "scripts": {
+    "build-mac": "electron-packager ./ ScreenTest  --platform=darwin --arch=x64 --icon=src/AnyConv.com__iconfinder_set_of_three_books_1741315.icns",
+    "mac-dmg": "electron-installer-dmg /Users/srib/Downloads/electron-screen-recorder-master/ScreenTest-darwin-x64/ScreenTest.app gg",
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist-mac": "electron-builder",
+    "dist-win": "electron-builder --win --x64",
+    "postinstall": "electron-builder install-app-deps"
+  },
+  "main": "src/main.js",
+  "bin": {
+    "electron-screen-recorder": "./launch.js"
+  },
+  "devDependencies": {
+    "electron-installer-dmg": "^3.0.0",
+    "electron-packager": "^14.2.0",
+    "electron-builder": "^22.3.2",
+    "electron": "1.7.9",
+    "electron-prebuilt": "^1.4.13"
+  },
+  "dependencies": {
+    "domify": "^1.4.0",
+    "fix-webm-duration": "^1.0.0"
+  },
+  "build": {
+    "appId": "mo.region.srib",
+    "productName": "Macau School",
+    "copyright": "Copyright © 2020 Region Computer",
+    "directories": {
+      "output": "build-win"
+    },
+    "mac": {
+      "icon": "src/AnyConv.com__iconfinder_set_of_three_books_1741315.icns",
+      "entitlements": "entitlements.mac.plist",
+      "hardenedRuntime": true,
+      "extendInfo": {
+        "NSMicrophoneUsageDescription": "請允許本程序訪問您的麥克風",
+        "NSCameraUsageDescription": "請允許本程序訪問您的攝像頭"
+      }
+    },
+    "win": {
+      "icon": "src/iconfinder_set_of_three_books_1741315.ico"
+    }
+  }
+}
