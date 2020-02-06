@@ -25,7 +25,7 @@ app.on('ready', () => {
   mainWindow.webContents.session.on('will-download', (event, item, webContents) => {
   // 設定儲存路徑，不讓 Electron 跳出視窗詢問。
   console.log(event, item, webContents)
-  item.setSavePath('/Users/srib/Desktop/macau school.webm')
+  item.setSavePath(`/Users/srib/Desktop/macau school${' ' + new Date().getFullYear() + '年' + (new Date().getMonth() + 1) + '月' + new Date().getDate() + '日'+ new Date().getHours() + '時' + new Date().getMinutes() + '分'}.webm`)
   console.log('good')
   item.on('updated', (event, state) => {
     if (state === 'interrupted') {
