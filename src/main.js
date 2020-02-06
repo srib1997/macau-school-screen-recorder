@@ -7,15 +7,20 @@ let mainWindow
 let pickerDialog
 
 const desktop = path.join(os.homedir(), 'Desktop')
+const floderName = '.macau-school'
 
 app.on('ready', () => {
   try {
-    if (!fs.existsSync(`${desktop}/.macau-school`)) {
-      fs.mkdir(`${desktop}/.macau-school`)
+    if (!fs.existsSync(`${desktop}/${floderName}`)) {
+      fs.mkdir(`${desktop}/${floderName}`)
     }
   } catch (err) {
     console.log(err)
   }
+
+  fs.readdirSync(`${desktop}/${floderName}`).forEach(file => {
+    console.log(file)
+  })
 
   mainWindow = new BrowserWindow({
     height: 500,
@@ -35,7 +40,7 @@ app.on('ready', () => {
 
   mainWindow.webContents.session.on('will-download', (event, item, webContents) => {
     // 設定儲存路徑，不讓 Electron 跳出視窗詢問。
-    item.setSavePath(`${desktop}/.macau-school/macau school${' ' + new Date().getFullYear() + '年' + (new Date().getMonth() + 1) + '月' + new Date().getDate() + '日' + new Date().getHours() + '時' + new Date().getMinutes() + '分'}.webm`)
+    item.setSavePath(`${desktop}/${floderName}/macau school${' ' + new Date().getFullYear() + '年' + (new Date().getMonth() + 1) + '月' + new Date().getDate() + '日' + new Date().getHours() + '時' + new Date().getMinutes() + '分'}.webm`)
 
     item.on('updated', (event, state) => {
       if (state === 'interrupted') {
