@@ -17,8 +17,8 @@ var duration
 
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelector('#record-desktop').addEventListener('click', recordDesktop)
-  document.querySelector('#record-camera').addEventListener('click', recordCamera)
-  document.querySelector('#record-window').addEventListener('click', recordWindow)
+  // document.querySelector('#record-camera').addEventListener('click', recordCamera)
+  // document.querySelector('#record-window').addEventListener('click', recordWindow)
   document.querySelector('#play-video').addEventListener('click', playVideo)
   document.querySelector('#micro-audio').addEventListener('click', microAudioCheck)
   // document.querySelector('#system-audio').addEventListener('click', sysAudioCheck)
@@ -38,8 +38,8 @@ const playVideo = () => {
 
 const disableButtons = () => {
   document.querySelector('#record-desktop').disabled = true
-  document.querySelector('#record-camera').disabled = true
-  document.querySelector('#record-window').disabled = true
+  // document.querySelector('#record-camera').disabled = true
+  // document.querySelector('#record-window').disabled = true
   document.querySelector('#record-stop').hidden = false
   document.querySelector('#play-button').hidden = true
   document.querySelector('#download-button').hidden = true
@@ -47,8 +47,8 @@ const disableButtons = () => {
 
 const enableButtons = () => {
   document.querySelector('#record-desktop').disabled = false
-  document.querySelector('#record-camera').disabled = false
-  document.querySelector('#record-window').disabled = false
+  // document.querySelector('#record-camera').disabled = false
+  // document.querySelector('#record-window').disabled = false
   document.querySelector('#record-stop').hidden = true
   document.querySelector('#play-button').hidden = true
   document.querySelector('#download-button').hidden = true
@@ -104,18 +104,18 @@ const recordDesktop = () => {
   ipcRenderer.send('show-picker', { types: ['screen'] })
 }
 
-const recordWindow = () => {
-  cleanRecord()
-  ipcRenderer.send('show-picker', { types: ['window'] })
-}
+// const recordWindow = () => {
+//   cleanRecord()
+//   ipcRenderer.send('show-picker', { types: ['window'] })
+// }
 
-const recordCamera = () => {
-  cleanRecord()
-  navigator.webkitGetUserMedia({
-    audio: false,
-    video: { mandatory: { minWidth: 1280, minHeight: 720 } }
-  }, getMediaStream, getUserMediaError)
-}
+// const recordCamera = () => {
+//   cleanRecord()
+//   navigator.webkitGetUserMedia({
+//     audio: false,
+//     video: { mandatory: { minWidth: 1280, minHeight: 720 } }
+//   }, getMediaStream, getUserMediaError)
+// }
 
 const recorderOnDataAvailable = (event) => {
   if (event.data && event.data.size > 0) {
