@@ -1,13 +1,13 @@
 {
-  "name": "electron-screen-recorder",
-  "description": "Screen Recorder",
+  "name": "Macau-School",
+  "description": "Macau School",
   "version": "0.0.1",
   "author": "srib",
   "license": "BSD",
   "keywords": [
     "Electron",
     "DesktopCapture",
-    "Screen Recorder",
+    "Macau School",
     "WebRTC"
   ],
   "scripts": {
