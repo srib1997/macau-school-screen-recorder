@@ -34,21 +34,47 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelector('#list-video-floder').addEventListener('click', listVideo)
 })
 
+var firstTime = false
+var secondTime = false
 const listVideo = () => {
   const table = document.querySelector('table')
   const video = document.querySelector('video')
   video.hidden = true
   table.hidden = false
-  const thead = table.getElementsByTagName('thead')
-  const tbody = table.getElementsByTagName('tbody')
-  const tr = thead.item(0)
-  tr.innerHTML = '影片'
+
   fs.readdirSync(`${desktop}/${floderName}`).forEach((file, index) => {
-    console.log(file, index)
-    const newText = document.createTextNode(file)
-    const item = tbody.item(index)
-    item.appendChild(newText)
+    if (firstTime) {
+      var child = table.firstElementChild
+      console.log(child)
+      table.removeChild(child)
+      child = table.firstElementChild
+    }
+
+    var tr = document.createElement('TR')
+    tr.appendChild(document.createTextNode(file))
+    table.appendChild(tr)
   })
+
+  if (firstTime) {
+    if (secondTime) {
+      var child = table.firstElementChild
+      console.log(child)
+      table.removeChild(child)
+      child = table.firstElementChild
+    }
+  }
+  secondTime = true
+  firstTime = true
+  const thead = table.createTHead('thead')
+  thead.innerHTML = '影片'
+  // fs.readdir(`${desktop}/${floderName}`, (err, files) => {
+  //   for (i = 0; i < files.length; i++) {
+  //     var tr = document.createElement('TR')
+  //     tr.appendChild(document.createTextNode(files[i]))
+  //     table.appendChild(tr)
+  //   }
+  // }
+  // )
 }
 
 const playVideo = () => {
@@ -192,6 +218,7 @@ const download = () => {
   const video = document.querySelector('video')
   table.hidden = true
   video.hidden = false
+  secondTime = false
   var blob = new Blob(recordedChunks, { type: 'video/webm' })
 
   // console.log(blob, duration)
