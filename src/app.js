@@ -158,12 +158,14 @@ const download = () => {
     // a.controls = true;
     a.href = url
     a.download = 'macau school.webm'
+    a.dataset.downloadurl = [{ type: 'video/webm' }, a.download, a.href].join(':');
     // a.currentTime = 1e101;
     // a.ontimeupdate = function() {
     //   this.ontimeupdate = ()=>{return;}
     //   a.currentTime = 0;
     // }
     a.click()
+    console.log(a)
     setTimeout(function () {
       document.body.removeChild(a)
       window.URL.revokeObjectURL(url)
