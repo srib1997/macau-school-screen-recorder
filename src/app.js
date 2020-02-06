@@ -1,4 +1,4 @@
-const {desktopCapturer, ipcRenderer, remote} = require('electron')
+const { desktopCapturer, ipcRenderer, remote } = require('electron')
 const domify = require('domify')
 const ysFixWebmDuration = require('fix-webm-duration')
 
@@ -9,8 +9,8 @@ let numRecordedChunks = 0
 let recorder
 let includeMic = false
 
-var mediaParts;
-var startTime;
+var mediaParts
+var startTime
 var fixblod
 var duration
 // let includeSysAudio = false
@@ -28,9 +28,9 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 
 const playVideo = () => {
-  remote.dialog.showOpenDialog({properties: ['openFile']}, (filename) => {
+  remote.dialog.showOpenDialog({ properties: ['openFile'] }, (filename) => {
     console.log(filename)
-    let video = document.querySelector('video')
+    const video = document.querySelector('video')
     video.muted = false
     video.src = filename
   })
@@ -62,32 +62,29 @@ const microAudioCheck = () => {
   var video = document.querySelector('video')
   video.muted = true
   includeMic = !includeMic
-  if(includeMic)
-    document.querySelector('#micro-audio-btn').classList.add('active');
-  else
-    document.querySelector('#micro-audio-btn').classList.remove('active');
+  if (includeMic) { document.querySelector('#micro-audio-btn').classList.add('active') } else { document.querySelector('#micro-audio-btn').classList.remove('active') }
   console.log('Audio =', includeMic)
 
   if (includeMic) {
     navigator.webkitGetUserMedia({ audio: true, video: false },
-        getMicroAudio, getUserMediaError)
+      getMicroAudio, getUserMediaError)
   }
 }
 
 // function sysAudioCheck () {
-  // // Mute video so we don't play loopback audio
-  // var video = document.querySelector('video')
-  // video.muted = true
+// // Mute video so we don't play loopback audio
+// var video = document.querySelector('video')
+// video.muted = true
 
-  // includeSysAudio = !includeSysAudio
-  // includeMic = false
-  // document.querySelector('#micro-audio').checked = false
-  // console.log('System Audio =', includeSysAudio)
+// includeSysAudio = !includeSysAudio
+// includeMic = false
+// document.querySelector('#micro-audio').checked = false
+// console.log('System Audio =', includeSysAudio)
 // };
 
 const cleanRecord = () => {
-  let video = document.querySelector('video');
-  video.controls = false;
+  const video = document.querySelector('video')
+  video.controls = false
   recordedChunks = []
   numRecordedChunks = 0
 }
@@ -135,30 +132,28 @@ const stopRecording = () => {
 
 const play = () => {
   // Unmute video.
-  let video = document.querySelector('video')
-  video.controls = true;
+  const video = document.querySelector('video')
+  video.controls = true
   video.muted = false
-  let blob = new Blob(recordedChunks, {type: 'video/webm'})
-  ysFixWebmDuration(blob, duration, function(fixedBlob) {
-  video.src = window.URL.createObjectURL(fixedBlob)
+  const blob = new Blob(recordedChunks, { type: 'video/webm' })
+  ysFixWebmDuration(blob, duration, function (fixedBlob) {
+    video.src = window.URL.createObjectURL(fixedBlob)
   })
 }
 
 const download = () => {
-  var blob  = new Blob(recordedChunks, { type: 'video/webm' });
-    
+  var blob = new Blob(recordedChunks, { type: 'video/webm' })
+
   // console.log(blob, duration)
-  ysFixWebmDuration(blob, duration, function(fixedBlob) {
-
-
-    let url = URL.createObjectURL(fixedBlob)
-    let a = document.createElement('a')
+  ysFixWebmDuration(blob, duration, function (fixedBlob) {
+    const url = URL.createObjectURL(fixedBlob)
+    const a = document.createElement('a')
     document.body.appendChild(a)
     a.style = 'display: none'
     // a.controls = true;
     a.href = url
     a.download = 'macau school.webm'
-    a.dataset.downloadurl = [{ type: 'video/webm' }, a.download, a.href].join(':');
+    a.dataset.downloadurl = [{ type: 'video/webm' }, a.download, a.href].join(':')
     // a.currentTime = 1e101;
     // a.ontimeupdate = function() {
     //   this.ontimeupdate = ()=>{return;}
@@ -170,32 +165,31 @@ const download = () => {
       document.body.removeChild(a)
       window.URL.revokeObjectURL(url)
     }, 100)
-  });
+  })
   // let blob = new Blob(recordedChunks, {type: 'video/webm'})
-  
 }
 
 const getMediaStream = (stream) => {
-  let video = document.querySelector('video')
+  const video = document.querySelector('video')
   video.src = URL.createObjectURL(stream)
   localStream = stream
   stream.onended = () => { console.log('Media stream ended.') }
 
-  let videoTracks = localStream.getVideoTracks()
+  const videoTracks = localStream.getVideoTracks()
 
   if (includeMic) {
     console.log('Adding audio track.')
-    let audioTracks = microAudioStream.getAudioTracks()
+    const audioTracks = microAudioStream.getAudioTracks()
     localStream.addTrack(audioTracks[0])
   }
   // if (includeSysAudio) {
-    // console.log('Adding system audio track.')
-    // let audioTracks = stream.getoAudioTracks()
-    // if (audioTracks.length < 1) {
-      // console.log('No audio track in screen stream.')
-    // }
+  // console.log('Adding system audio track.')
+  // let audioTracks = stream.getoAudioTracks()
+  // if (audioTracks.length < 1) {
+  // console.log('No audio track in screen stream.')
+  // }
   // } else {
-    // console.log('Not adding audio track.')
+  // console.log('Not adding audio track.')
   // }
   try {
     console.log('Start recording the stream.')
@@ -206,13 +200,13 @@ const getMediaStream = (stream) => {
   }
   recorder.ondataavailable = recorderOnDataAvailable
   // recorder.onstop = () => { console.log('recorderOnStop fired') }
-  
-  mediaParts = [];
+
+  mediaParts = []
   recorder.onstop = () => {
-    duration = Date.now() - startTime;
-};
+    duration = Date.now() - startTime
+  }
   recorder.start()
-  startTime = Date.now();
+  startTime = Date.now()
   console.log('Recorder is started.')
   disableButtons()
 }
@@ -235,7 +229,13 @@ const onAccessApproved = (id) => {
   console.log('Window ID: ', id)
   navigator.webkitGetUserMedia({
     audio: false,
-    video: { mandatory: { chromeMediaSource: 'desktop', chromeMediaSourceId: id,
-      maxWidth: window.screen.width, maxHeight: window.screen.height } }
+    video: {
+      mandatory: {
+        chromeMediaSource: 'desktop',
+        chromeMediaSourceId: id,
+        maxWidth: window.screen.width,
+        maxHeight: window.screen.height
+      }
+    }
   }, getMediaStream, getUserMediaError)
 }

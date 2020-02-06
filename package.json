@@ -17,29 +17,32 @@
     "pack": "electron-builder --dir",
     "dist-mac": "electron-builder",
     "dist-win": "electron-builder --win --x64",
-    "postinstall": "electron-builder install-app-deps"
+    "postinstall": "electron-builder install-app-deps",
+    "show-hidden": "ls -ld .?*"
   },
   "main": "src/main.js",
   "bin": {
     "electron-screen-recorder": "./launch.js"
   },
   "devDependencies": {
+    "electron": "1.7.9",
+    "electron-builder": "^22.3.2",
     "electron-installer-dmg": "^3.0.0",
     "electron-packager": "^14.2.0",
-    "electron-builder": "^22.3.2",
-    "electron": "1.7.9",
     "electron-prebuilt": "^1.4.13"
   },
   "dependencies": {
+    "babel-eslint": "^10.0.3",
     "domify": "^1.4.0",
-    "fix-webm-duration": "^1.0.0"
+    "fix-webm-duration": "^1.0.0",
+    "standard": "^14.3.1"
   },
   "build": {
     "appId": "mo.region.srib",
     "productName": "Macau School",
     "copyright": "Copyright © 2020 Region Computer",
     "directories": {
-      "output": "build-win"
+      "output": "download"
     },
     "mac": {
       "icon": "src/AnyConv.com__iconfinder_set_of_three_books_1741315.icns",
@@ -52,6 +55,12 @@
     },
     "win": {
       "icon": "src/iconfinder_set_of_three_books_1741315.ico"
+    },
+    "standard": {
+      "parser": "babel-eslint",
+      "ignore": [
+        "**/node_modules/**"
+      ]
     }
   }
 }
