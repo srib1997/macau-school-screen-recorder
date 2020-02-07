@@ -1,4 +1,4 @@
-const { desktopCapturer, ipcRenderer } = require('electron')
+const { desktopCapturer, ipcRenderer, dialog } = require('electron')
 const domify = require('domify')
 
 document.onkeydown = function (evt) {
@@ -10,10 +10,12 @@ document.onkeydown = function (evt) {
 }
 
 ipcRenderer.on('get-sources', (event, options) => {
+  console.log('click')
   desktopCapturer.getSources(options, (error, sources) => {
     if (error) throw error
     const sourcesList = document.querySelector('.capturer-list')
     for (const source of sources) {
+      console.log('click1')
       const thumb = source.thumbnail.toDataURL()
       if (!thumb) continue
       const title = source.name.slice(0, 20)
@@ -30,6 +32,7 @@ ipcRenderer.on('get-sources', (event, options) => {
         }
       }
       links[i].onclick = closure(i)
+      console.log(sources[0].id)
     }
   })
 })

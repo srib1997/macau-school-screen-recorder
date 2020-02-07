@@ -1,4 +1,4 @@
-const { desktopCapturer, ipcRenderer, remote } = require('electron')
+const { desktopCapturer, ipcRenderer, remote, shell } = require('electron')
 const domify = require('domify')
 const ysFixWebmDuration = require('fix-webm-duration')
 const path = require('path')
@@ -45,7 +45,7 @@ const listVideo = () => {
   fs.readdirSync(`${desktop}/${floderName}`).forEach((file, index) => {
     if (firstTime) {
       var child = table.firstElementChild
-      console.log(child)
+      // console.log(child)
       table.removeChild(child)
       child = table.firstElementChild
     }
@@ -53,12 +53,21 @@ const listVideo = () => {
     var tr = document.createElement('TR')
     tr.appendChild(document.createTextNode(file))
     table.appendChild(tr)
+    tr.onclick = () => {
+      table.hidden = true
+      video.hidden = false
+      // remote.dialog.showOpenDialog((filePaths) => {
+      //   console.log(filePaths)
+      // })
+      video.muted = false
+      video.src = `${desktop}/${floderName}/${tr.innerHTML}`
+    }
   })
 
   if (firstTime) {
     if (secondTime) {
       var child = table.firstElementChild
-      console.log(child)
+      // console.log(child)
       table.removeChild(child)
       child = table.firstElementChild
     }
