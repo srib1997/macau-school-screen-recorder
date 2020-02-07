@@ -55,12 +55,12 @@
     },
     "win": {
       "icon": "src/iconfinder_set_of_three_books_1741315.ico"
-    },
-    "standard": {
-      "parser": "babel-eslint",
-      "ignore": [
-        "**/node_modules/**"
-      ]
     }
+  },
+  "standard": {
+    "parser": "babel-eslint",
+    "ignore": [
+      "**/node_modules/**"
+    ]
   }
 }
