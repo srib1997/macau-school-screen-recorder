@@ -5,3 +5,6 @@ path.txt
 npm-debug.log
 build-win
 download
+yarn.lock
+package-lock.json
+screenshot
