@@ -18,8 +18,8 @@ process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = 'true'
 
 function createBrowser () {
   otherBrowserDialog = new BrowserWindow({
-    height: 600,
-    width: 800,
+    height: 720,
+    width: 1020,
     webPreferences: {
       nodeIntegration: true,
       webviewTag: true
