@@ -268,12 +268,23 @@ const getMediaStream = (stream) => {
   const video = document.querySelector('video')
 
   // video.src = URL.createObjectURL(stream)
-
   try {
-    video.src = window.URL.createObjectURL(stream)
+    video.src = (window.URL || window.webkitURL).createObjectURL(stream)
   } catch (error) {
     video.src = stream
   }
+  // if ('srcObject' in video) {
+  //   video.srcObject = stream
+  // } else if (navigator.mozGetUserMedia) {
+  //   video.mozSrcObject = stream
+  // } else {
+  //   try {
+  //     video.src = (window.URL || window.webkitURL).createObjectURL(stream)
+  //   } catch (error) {
+  //     video.src = stream
+  //   }
+  // }
+
   localStream = stream
   stream.onended = () => { console.log('Media stream ended.') }
 
@@ -330,15 +341,19 @@ const onAccessApproved = (id) => {
     return
   }
   console.log('Window ID: ', id)
-  navigator.webkitGetUserMedia({
-    audio: false,
-    video: {
-      mandatory: {
-        chromeMediaSource: 'desktop',
-        chromeMediaSourceId: id,
-        maxWidth: window.screen.width,
-        maxHeight: window.screen.height
+  const api = navigator.getUserMedia || navigator.webkitGetUserMedia ||
+    navigator.mozGetUserMedia || navigator.msGetUserMedia
+  if (api) {
+    api.bind(navigator)({
+      audio: false,
+      video: {
+        mandatory: {
+          chromeMediaSource: 'desktop',
+          chromeMediaSourceId: id,
+          maxWidth: window.screen.width,
+          maxHeight: window.screen.height
+        }
       }
-    }
-  }, getMediaStream, getUserMediaError)
+    }, getMediaStream, getUserMediaError)
+  }
 }
