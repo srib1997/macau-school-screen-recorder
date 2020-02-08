@@ -5,7 +5,7 @@ const path = require('path')
 const os = require('os')
 const fs = require('fs')
 
-const isWin = process.platform === ("win32" || "win64")
+const isWin = process.platform === ('win32' || 'win64')
 const desktop = path.join(os.homedir(), 'Desktop')
 const floderName = '.macau-school'
 const pathOfDownload = isWin ? `${desktop}\\${floderName}` : `${desktop}/${floderName}`

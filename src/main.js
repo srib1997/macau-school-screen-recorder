@@ -3,7 +3,7 @@ const fs = require('fs')
 const path = require('path')
 const os = require('os')
 
-const isWin = process.platform === ("win32" || "win64")
+const isWin = process.platform === ('win32' || 'win64')
 let mainWindow
 let pickerDialog
 
