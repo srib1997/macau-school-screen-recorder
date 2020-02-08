@@ -2,14 +2,37 @@ const { app, BrowserWindow, ipcMain } = require('electron')
 const fs = require('fs')
 const path = require('path')
 const os = require('os')
+const url = require('url')
 
 const isWin = process.platform === ('win32' || 'win64')
 let mainWindow
 let pickerDialog
+let otherBrowserDialog
 
 const desktop = path.join(os.homedir(), 'Desktop')
 const floderName = '.macau-school'
 const pathOfDownload = isWin ? `${desktop}\\${floderName}` : `${desktop}/${floderName}`
+
+function createBrowser () {
+  otherBrowserDialog = new BrowserWindow({
+    height: 720,
+    width: 1024
+
+  })
+
+  otherBrowserDialog.loadURL(url.format({
+    pathname: path.join(__dirname, 'otherbrowser.html'),
+    protocol: 'file:',
+    slashes: true
+  }))
+
+  // otherBrowserDialog.on('closed', function () {
+  //   // Dereference the window object, usually you would store windows
+  //   // in an array if your app supports multi windows, this is the time
+  //   // when you should delete the corresponding element.
+  //   otherBrowserDialog = null
+  // })
+}
 
 app.on('ready', () => {
   try {
@@ -19,7 +42,7 @@ app.on('ready', () => {
   } catch (err) {
     console.log(err)
   }
-  console.log(pathOfDownload)
+
   fs.readdirSync(pathOfDownload).forEach(file => {
     console.log(file)
   })
@@ -37,8 +60,10 @@ app.on('ready', () => {
     height: 390,
     width: 680
   })
+
   mainWindow.loadURL('file://' + __dirname + '/index.html')
   pickerDialog.loadURL('file://' + __dirname + '/picker.html')
+  // otherBrowserDialog.loadURL('file://' + __dirname + '/otherbrowser.html')
 
   mainWindow.webContents.session.on('will-download', (event, item, webContents) => {
     // 設定儲存路徑，不讓 Electron 跳出視窗詢問。
@@ -70,8 +95,24 @@ ipcMain.on('show-picker', (event, options) => {
   pickerDialog.webContents.send('get-sources', options)
 })
 
+ipcMain.on('show-browser', (event, options) => {
+  createBrowser()
+})
+
 ipcMain.on('source-id-selected', (event, sourceId) => {
   console.log('sourceId: ', sourceId)
   pickerDialog.hide()
   mainWindow.webContents.send('source-id-selected', sourceId)
+})
+
+// app.on('activate', function () {
+//   // On OS X it's common to re-create a window in the app when the
+//   // dock icon is clicked and there are no other windows open.
+//   if (otherBrowserDialog === null) {
+//     createBrowser()
+//   }
+// })
+process.on('uncaughtException', function (error) {
+  // Handle the error
+  console.log(error)
 })

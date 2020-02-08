@@ -25,6 +25,7 @@ var duration
 
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelector('#record-desktop').addEventListener('click', recordDesktop)
+  document.querySelector('#show-browser').addEventListener('click', showBrowser)
   // document.querySelector('#record-camera').addEventListener('click', recordCamera)
   // document.querySelector('#record-window').addEventListener('click', recordWindow)
   // document.querySelector('#play-video').addEventListener('click', playVideo)
@@ -175,6 +176,10 @@ const recordDesktop = () => {
 
   cleanRecord()
   ipcRenderer.send('show-picker', { types: ['screen'] })
+}
+
+const showBrowser = () => {
+  ipcRenderer.send('show-browser')
 }
 
 // const recordWindow = () => {
