@@ -40,7 +40,7 @@ app.on('ready', () => {
 
   mainWindow.webContents.session.on('will-download', (event, item, webContents) => {
     // 設定儲存路徑，不讓 Electron 跳出視窗詢問。
-    item.setSavePath(`${desktop}/${floderName}/macau-school${'-' + new Date().getFullYear() + '/' + (new Date().getMonth() + 1) + '/' + new Date().getDate() + '-' + new Date().getHours() + ':' + new Date().getMinutes()}.webm`)
+    item.setSavePath(`${desktop}/${floderName}/macau-school${'-' + new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate() + '-' + new Date().getHours() + '-' + new Date().getMinutes()}.webm`)
 
     item.on('updated', (event, state) => {
       if (state === 'interrupted') {
