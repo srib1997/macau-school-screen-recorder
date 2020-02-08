@@ -196,6 +196,7 @@ const showBrowser = () => {
 // }
 
 const recorderOnDataAvailable = (event) => {
+  console.log('recorderOnDataAvailable: ', event)
   if (event.data && event.data.size > 0) {
     recordedChunks.push(event.data)
     numRecordedChunks += event.data.byteLength
@@ -265,7 +266,14 @@ const download = () => {
 
 const getMediaStream = (stream) => {
   const video = document.querySelector('video')
-  video.src = URL.createObjectURL(stream)
+
+  // video.src = URL.createObjectURL(stream)
+
+  try {
+    video.src = window.URL.createObjectURL(stream)
+  } catch (error) {
+    video.src = stream
+  }
   localStream = stream
   stream.onended = () => { console.log('Media stream ended.') }
 
@@ -300,6 +308,7 @@ const getMediaStream = (stream) => {
     duration = Date.now() - startTime
   }
   recorder.start()
+
   startTime = Date.now()
   console.log('Recorder is started.')
   disableButtons()

@@ -3,6 +3,7 @@
   <head>
     <title>Macau School</title>
     <meta charset="utf-8">
+    <!-- <meta http-equiv="Content-Security-Policy" content="worker-src https: 'unsafe-eval'"> -->
     <link rel="stylesheet" href="css/css/font-awesome.css">
     <link rel="stylesheet" href="css/main.css">
     <style>
@@ -11,6 +12,29 @@
       height: 100%;
     }
     </style>
+    <!-- <script>
+    // You can also require other files to run in this process
+    require('./renderer.js')
+  </script> -->
+  <script type = "text/javascript">
+    // Event handlers for loading events.
+    // Use these to handle loading screens, transitions, etc
+    onload = () => {
+       const webview = document.getElementById('view')
+       const indicator = document.querySelector('.indicator')
+
+       const loadstart = () => {
+          indicator.innerText = 'loading...'
+       }
+
+       const loadstop = () => {
+          indicator.innerText = ''
+       }
+
+       webview.addEventListener('did-start-loading', loadstart)
+       webview.addEventListener('did-stop-loading', loadstop)
+    }
+ </script>
   </head>
   <body id="browser">
     <nav id="navigation">
@@ -56,10 +80,6 @@
       </a>
     </div>-->
       <div id="views">
-        <webview id="view" class="page" src="https://macau.school/" autosize="on" disablewebsecurity></webview>
+        <webview id="view" class="page" src="https://macau.school" autosize="on"><div class = "indicator"></div></webview>
       </div>
-  <script>
-    // You can also require other files to run in this process
-    require('./renderer.js')
-  </script>
 </html>

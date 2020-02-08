@@ -21,15 +21,11 @@
     "show-hidden": "ls -ld .?*"
   },
   "main": "src/main.js",
-  "bin": {
-    "electron-screen-recorder": "./launch.js"
-  },
   "devDependencies": {
     "electron": "^8.0.0",
     "electron-builder": "^22.3.2",
     "electron-installer-dmg": "^3.0.0",
-    "electron-packager": "^14.2.0",
-    "electron-prebuilt": "^1.4.13"
+    "electron-packager": "^14.2.0"
   },
   "dependencies": {
     "babel-eslint": "^10.0.3",

@@ -1,3 +1,4 @@
+
 const { app, BrowserWindow, ipcMain } = require('electron')
 const fs = require('fs')
 const path = require('path')
@@ -15,17 +16,23 @@ const pathOfDownload = isWin ? `${desktop}\\${floderName}` : `${desktop}/${flode
 
 function createBrowser () {
   otherBrowserDialog = new BrowserWindow({
-    height: 720,
-    width: 1024
+    height: 600,
+    width: 800,
+    webPreferences: {
+      nodeIntegration: true
+    }
 
   })
 
-  otherBrowserDialog.loadURL(url.format({
-    pathname: path.join(__dirname, 'otherbrowser.html'),
-    protocol: 'file:',
-    slashes: true
-  }))
-
+  // otherBrowserDialog.loadURL('file://' + __dirname + '/otherbrowser.html')
+  // otherBrowserDialog.loadURL(url.format({
+  //   pathname: path.join(__dirname, 'otherbrowser.html'),
+  //   protocol: 'file:',
+  //   slashes: true
+  // }))
+  otherBrowserDialog.loadURL('https://macau.school')
+  // const contents = otherBrowserDialog.webContents
+  // console.log(contents)
   // otherBrowserDialog.on('closed', function () {
   //   // Dereference the window object, usually you would store windows
   //   // in an array if your app supports multi windows, this is the time
@@ -49,7 +56,10 @@ app.on('ready', () => {
 
   mainWindow = new BrowserWindow({
     height: 500,
-    width: 600
+    width: 600,
+    webPreferences: {
+      nodeIntegration: true
+    }
   })
 
   pickerDialog = new BrowserWindow({
@@ -58,7 +68,10 @@ app.on('ready', () => {
     modal: true,
     show: false,
     height: 390,
-    width: 680
+    width: 680,
+    webPreferences: {
+      nodeIntegration: true
+    }
   })
 
   mainWindow.loadURL('file://' + __dirname + '/index.html')
