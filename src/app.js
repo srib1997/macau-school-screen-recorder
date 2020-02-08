@@ -5,8 +5,10 @@ const path = require('path')
 const os = require('os')
 const fs = require('fs')
 
+const isWin = process.platform === ("win32" || "win64")
 const desktop = path.join(os.homedir(), 'Desktop')
 const floderName = '.macau-school'
+const pathOfDownload = isWin ? `${desktop}\\${floderName}` : `${desktop}/${floderName}`
 
 let localStream
 let microAudioStream
@@ -42,7 +44,7 @@ const listVideo = () => {
   video.hidden = true
   table.hidden = false
 
-  fs.readdirSync(`${desktop}/${floderName}`).forEach((file, index) => {
+  fs.readdirSync(pathOfDownload).forEach((file, index) => {
     if (firstTime) {
       var child = table.firstElementChild
       // console.log(child)
@@ -60,7 +62,7 @@ const listVideo = () => {
       //   console.log(filePaths)
       // })
       video.muted = false
-      video.src = `${desktop}/${floderName}/${tr.innerHTML}`
+      video.src = isWin ? `${pathOfDownload}\\${tr.innerHTML}` : `${pathOfDownload}/${tr.innerHTML}`
     }
   })
 
@@ -91,7 +93,7 @@ const playVideo = () => {
   const video = document.querySelector('video')
   table.hidden = true
   video.hidden = false
-  remote.dialog.showOpenDialog({ properties: ['openFile'], defaultPath: `${desktop}/${floderName}`, filters: [{ name: 'All Files', extensions: ['webm'] }] }, (filename) => {
+  remote.dialog.showOpenDialog({ properties: ['openFile'], defaultPath: `${pathOfDownload}`, filters: [{ name: 'All Files', extensions: ['webm'] }] }, (filename) => {
     console.log(filename)
     const video = document.querySelector('video')
     video.muted = false

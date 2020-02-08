@@ -3,22 +3,24 @@ const fs = require('fs')
 const path = require('path')
 const os = require('os')
 
+const isWin = process.platform === ("win32" || "win64")
 let mainWindow
 let pickerDialog
 
 const desktop = path.join(os.homedir(), 'Desktop')
 const floderName = '.macau-school'
+const pathOfDownload = isWin ? `${desktop}\\${floderName}` : `${desktop}/${floderName}`
 
 app.on('ready', () => {
   try {
-    if (!fs.existsSync(`${desktop}/${floderName}`)) {
-      fs.mkdir(`${desktop}/${floderName}`)
+    if (!fs.existsSync(pathOfDownload)) {
+      fs.mkdir(pathOfDownload)
     }
   } catch (err) {
     console.log(err)
   }
-
-  fs.readdirSync(`${desktop}/${floderName}`).forEach(file => {
+  console.log(pathOfDownload)
+  fs.readdirSync(pathOfDownload).forEach(file => {
     console.log(file)
   })
 
@@ -40,7 +42,7 @@ app.on('ready', () => {
 
   mainWindow.webContents.session.on('will-download', (event, item, webContents) => {
     // 設定儲存路徑，不讓 Electron 跳出視窗詢問。
-    item.setSavePath(`${desktop}/${floderName}/macau-school${'-' + new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate() + '-' + new Date().getHours() + '-' + new Date().getMinutes()}.webm`)
+    item.setSavePath(isWin ? `${pathOfDownload}\\macau-school${'-' + new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate() + '-' + new Date().getHours() + '-' + new Date().getMinutes()}.webm` : `${pathOfDownload}/macau-school${'-' + new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate() + '-' + new Date().getHours() + '-' + new Date().getMinutes()}.webm`)
 
     item.on('updated', (event, state) => {
       if (state === 'interrupted') {
