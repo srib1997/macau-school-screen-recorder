@@ -62,6 +62,7 @@ const listVideo = () => {
       //   console.log(filePaths)
       // })
       video.muted = false
+      video.controls = true
       video.src = isWin ? `${pathOfDownload}\\${tr.innerHTML}` : `${pathOfDownload}/${tr.innerHTML}`
     }
   })
