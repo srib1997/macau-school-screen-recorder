@@ -273,6 +273,7 @@ const getMediaStream = (stream) => {
   } catch (error) {
     video.src = stream
   }
+  console.log(video.src)
   // if ('srcObject' in video) {
   //   video.srcObject = stream
   // } else if (navigator.mozGetUserMedia) {

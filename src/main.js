@@ -14,23 +14,26 @@ const desktop = path.join(os.homedir(), 'Desktop')
 const floderName = '.macau-school'
 const pathOfDownload = isWin ? `${desktop}\\${floderName}` : `${desktop}/${floderName}`
 
+process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = 'true'
+
 function createBrowser () {
   otherBrowserDialog = new BrowserWindow({
     height: 600,
     width: 800,
     webPreferences: {
-      nodeIntegration: true
+      nodeIntegration: true,
+      webviewTag: true
     }
 
   })
 
-  // otherBrowserDialog.loadURL('file://' + __dirname + '/otherbrowser.html')
-  // otherBrowserDialog.loadURL(url.format({
-  //   pathname: path.join(__dirname, 'otherbrowser.html'),
-  //   protocol: 'file:',
-  //   slashes: true
-  // }))
-  otherBrowserDialog.loadURL('https://macau.school')
+  // otherBrowserDialog.loadFile('file://' + __dirname + '/otherbrowser.html')
+  otherBrowserDialog.loadURL(url.format({
+    pathname: path.join(__dirname, 'otherbrowser.html'),
+    protocol: 'file:',
+    slashes: true
+  }))
+  // otherBrowserDialog.loadURL('https://macau.school')
   // const contents = otherBrowserDialog.webContents
   // console.log(contents)
   // otherBrowserDialog.on('closed', function () {
