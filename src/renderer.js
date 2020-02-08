@@ -1,40 +1,28 @@
-// This file is required by the index.html file and will
-// be executed in the renderer process for that window.
-// All of the Node.js APIs are available in this process.
-
-var ById = function (id) {
-  return document.getElementById(id)
-}
-var jsonfile = require('jsonfile')
-var favicon = require('favicon-getter').default
-var path = require('path')
-var uuid = require('uuid')
+const jsonfile = require('jsonfile')
+const favicon = require('favicon-getter').default
+const path = require('path')
+const uuid = require('uuid')
 var bookmarks = path.join(__dirname, 'bookmarks.json')
 
-var back = ById('back')
-var forward = ById('forward')
-var refresh = ById('refresh')
-var omni = ById('url')
-var dev = ById('console')
-var fave = ById('fave')
-var list = ById('list')
-var popup = ById('fave-popup')
-var view = ById('view')
-
 function reloadView () {
+  const view = document.getElementById('view')
   view.reload()
   // view.src = 'https://macau.school/'
 }
 
 function backView () {
+  const view = document.getElementById('view')
   view.goBack()
 }
 
 function forwardView () {
+  const view = document.getElementById('view')
   view.goForward()
 }
 
 function updateURL (event) {
+  const omni = document.getElementById('url')
+  const view = document.getElementById('view')
   if (event.keyCode === 13) {
     omni.blur()
     const val = omni.value
@@ -68,8 +56,10 @@ Bookmark.prototype.ELEMENT = function () {
   a_tag.insertBefore(favimage, a_tag.childNodes[0])
   return a_tag
 }
+
 function addBookmark () {
   const url = view.src
+  const view = document.getElementById('view')
   const title = view.getTitle()
   favicon(url).then(function (fav) {
     const book = new Bookmark(uuid.v1(), url, fav, title)
@@ -81,6 +71,8 @@ function addBookmark () {
   })
 }
 function openPopUp (event) {
+  const popup = document.getElementById('fave-popup')
+
   const state = popup.getAttribute('data-state')
   if (state === 'closed') {
     popup.innerHTML = ''
@@ -106,6 +98,7 @@ function openPopUp (event) {
 }
 
 function handleUrl (event) {
+  const view = document.getElementById('view')
   if (event.target.className === 'link') {
     event.preventDefault()
     view.loadURL(event.target.href)
@@ -116,6 +109,7 @@ function handleUrl (event) {
 }
 
 function handleDevtools () {
+  const view = document.getElementById('view')
   if (view.isDevToolsOpened()) {
     view.closeDevTools()
   } else {
@@ -124,26 +118,40 @@ function handleDevtools () {
 }
 
 function updateNav (event) {
-  omni.value = view.src
+  const webview = document.querySelector('webview')
+
+  const url = document.getElementById('url')
+  url.value = webview.src
 }
 
-refresh.addEventListener('click', reloadView)
-back.addEventListener('click', backView)
-forward.addEventListener('click', forwardView)
-omni.addEventListener('keydown', updateURL)
-fave.addEventListener('click', addBookmark)
-list.addEventListener('click', openPopUp)
-popup.addEventListener('click', handleUrl)
-dev.addEventListener('click', handleDevtools)
-view.addEventListener('did-finish-load', updateNav)
-// https://github.com/hokein/electron-sample-apps/blob/master/webview/browser/browser.js#L5
-// To Do add dev tools open ✔️
-// update url ✔️
-// add bookmark by pressing button ✔️
-// load all bookmarks when list is clicked ✔️
-
-// To Do / Continue
-// Feedback when loading
-// Feedback with favorite icon to show that bookmark is not-added/added/already-added
-// Tabs !:@
-// Option to remove bookmarks.
+document.addEventListener('DOMContentLoaded', () => {
+  // document.querySelector('#record-desktop').addEventListener('click', recordDesktop)
+  // document.querySelector('#show-browser').addEventListener('click', showBrowser)
+  // // document.querySelector('#record-camera').addEventListener('click', recordCamera)
+  // // document.querySelector('#record-window').addEventListener('click', recordWindow)
+  // // document.querySelector('#play-video').addEventListener('click', playVideo)
+  // document.querySelector('#micro-audio').addEventListener('click', microAudioCheck)
+  // // document.querySelector('#system-audio').addEventListener('click', sysAudioCheck)
+  // document.querySelector('#record-stop').addEventListener('click', stopRecording)
+  // document.querySelector('#play-button').addEventListener('click', play)
+  // document.querySelector('#download-button').addEventListener('click', download)
+  // document.querySelector('#list-video-floder').addEventListener('click', listVideo)
+  document.querySelector('#refresh').addEventListener('click', reloadView)
+  document.querySelector('#back').addEventListener('click', backView)
+  document.querySelector('#forward').addEventListener('click', forwardView)
+  document.querySelector('#omnibox').addEventListener('keydown', updateURL)
+  document.querySelector('#fave').addEventListener('click', addBookmark)
+  document.querySelector('#list').addEventListener('click', openPopUp)
+  document.querySelector('#fave-popup').addEventListener('click', handleUrl)
+  document.querySelector('#console').addEventListener('click', handleDevtools)
+  document.querySelector('#view').addEventListener('did-finish-load', updateNav)
+  // refresh.addEventListener('click', reloadView)
+  // back.addEventListener('click', backView)
+  // forward.addEventListener('click', forwardView)
+  // omni.addEventListener('keydown', updateURL)
+  // fave.addEventListener('click', addBookmark)
+  // list.addEventListener('click', openPopUp)
+  // popup.addEventListener('click', handleUrl)
+  // dev.addEventListener('click', handleDevtools)
+  // view.addEventListener('did-finish-load', updateNav)
+})
