@@ -58,8 +58,8 @@ Bookmark.prototype.ELEMENT = function () {
 }
 
 function addBookmark () {
-  const url = view.src
   const view = document.getElementById('view')
+  const url = view.src
   const title = view.getTitle()
   favicon(url).then(function (fav) {
     const book = new Bookmark(uuid.v1(), url, fav, title)
@@ -125,17 +125,6 @@ function updateNav (event) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  // document.querySelector('#record-desktop').addEventListener('click', recordDesktop)
-  // document.querySelector('#show-browser').addEventListener('click', showBrowser)
-  // // document.querySelector('#record-camera').addEventListener('click', recordCamera)
-  // // document.querySelector('#record-window').addEventListener('click', recordWindow)
-  // // document.querySelector('#play-video').addEventListener('click', playVideo)
-  // document.querySelector('#micro-audio').addEventListener('click', microAudioCheck)
-  // // document.querySelector('#system-audio').addEventListener('click', sysAudioCheck)
-  // document.querySelector('#record-stop').addEventListener('click', stopRecording)
-  // document.querySelector('#play-button').addEventListener('click', play)
-  // document.querySelector('#download-button').addEventListener('click', download)
-  // document.querySelector('#list-video-floder').addEventListener('click', listVideo)
   document.querySelector('#refresh').addEventListener('click', reloadView)
   document.querySelector('#back').addEventListener('click', backView)
   document.querySelector('#forward').addEventListener('click', forwardView)

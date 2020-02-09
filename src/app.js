@@ -265,15 +265,23 @@ const download = () => {
 }
 
 const getMediaStream = (stream) => {
+  try {
+    console.log('Start recording the stream.')
+    recorder = new MediaRecorder(stream)
+  } catch (e) {
+    console.assert(false, 'Exception while creating MediaRecorder: ' + e)
+    return
+  }
   const video = document.querySelector('video')
-
+  // video.srcObject = stream
   // video.src = URL.createObjectURL(stream)
   try {
     video.src = (window.URL || window.webkitURL).createObjectURL(stream)
   } catch (error) {
+    // video.srcObject = stream
     video.src = stream
   }
-  console.log(video.src)
+  console.log(video.src, stream, video)
   // if ('srcObject' in video) {
   //   video.srcObject = stream
   // } else if (navigator.mozGetUserMedia) {
@@ -296,6 +304,7 @@ const getMediaStream = (stream) => {
     const audioTracks = microAudioStream.getAudioTracks()
     localStream.addTrack(audioTracks[0])
   }
+
   // if (includeSysAudio) {
   // console.log('Adding system audio track.')
   // let audioTracks = stream.getoAudioTracks()
@@ -305,13 +314,7 @@ const getMediaStream = (stream) => {
   // } else {
   // console.log('Not adding audio track.')
   // }
-  try {
-    console.log('Start recording the stream.')
-    recorder = new MediaRecorder(stream)
-  } catch (e) {
-    console.assert(false, 'Exception while creating MediaRecorder: ' + e)
-    return
-  }
+
   recorder.ondataavailable = recorderOnDataAvailable
   // recorder.onstop = () => { console.log('recorderOnStop fired') }
 
@@ -332,8 +335,8 @@ const getMicroAudio = (stream) => {
   stream.onended = () => { console.log('Micro audio ended.') }
 }
 
-const getUserMediaError = () => {
-  console.log('getUserMedia() failed.')
+const getUserMediaError = (e) => {
+  console.log('getUserMedia() failed.', e)
 }
 
 const onAccessApproved = (id) => {
@@ -341,6 +344,7 @@ const onAccessApproved = (id) => {
     console.log('Access rejected.')
     return
   }
+
   console.log('Window ID: ', id)
   const api = navigator.getUserMedia || navigator.webkitGetUserMedia ||
     navigator.mozGetUserMedia || navigator.msGetUserMedia
