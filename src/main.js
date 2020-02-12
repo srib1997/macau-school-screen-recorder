@@ -43,7 +43,7 @@ function createBrowser () {
   //   otherBrowserDialog = null
   // })
 }
-const value = async () => {
+const checkMacPermission = async () => {
   try {
     if (process.platform !== 'darwin') {
       return true
@@ -66,7 +66,7 @@ const value = async () => {
 }
 
 app.on('ready', () => {
-  value()
+  checkMacPermission()
   try {
     if (!fs.existsSync(pathOfDownload)) {
       fs.mkdir(pathOfDownload)
