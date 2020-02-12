@@ -51,12 +51,15 @@ const checkMacPermission = async () => {
 
     const microphoneStatus = await systemPreferences.getMediaAccessStatus('microphone')
     const cameraStatus = await systemPreferences.getMediaAccessStatus('camera')
-    console.log('Current microphone access status:', microphoneStatus, cameraStatus)
+    console.log('Current microphone access status:', microphoneStatus)
+    console.log('Current camera access status:', cameraStatus)
 
     if (microphoneStatus === 'not-determined' || cameraStatus === 'not-determined') {
-      const success = await systemPreferences.askForMediaAccess('microphone')
-      console.log('Result of microphone access:', success.valueOf() ? 'granted' : 'denied')
-      return success.valueOf()
+      const microphoneSuccess = await systemPreferences.askForMediaAccess('microphone')
+      const cameraSuccess = await systemPreferences.askForMediaAccess('microphone')
+      console.log('Result of microphone access:', microphoneSuccess.valueOf() ? 'granted' : 'denied')
+      console.log('Result of camera access:', cameraSuccess.valueOf() ? 'granted' : 'denied')
+      return microphoneSuccess.valueOf() + cameraSuccess.valueOf()
     }
     return true
   } catch (error) {
