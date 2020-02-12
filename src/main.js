@@ -44,13 +44,25 @@ function createBrowser () {
   // })
 }
 const value = async () => {
-  if (isWin) return
-  systemPreferences.askForMediaAccess('microphone').then((v) => {
-    console.log('Successfully gathered microphone access permissions.' + v)
-  })
-  systemPreferences.askForMediaAccess('camera').then((v) => {
-    console.log('Successfully gathered camera access permissions.' + v)
-  })
+  try {
+    if (process.platform !== 'darwin') {
+      return true
+    }
+
+    const microphoneStatus = await systemPreferences.getMediaAccessStatus('microphone')
+    const cameraStatus = await systemPreferences.getMediaAccessStatus('camera')
+    console.log('Current microphone access status:', microphoneStatus, cameraStatus)
+
+    if (microphoneStatus === 'not-determined' || cameraStatus === 'not-determined') {
+      const success = await systemPreferences.askForMediaAccess('microphone')
+      console.log('Result of microphone access:', success.valueOf() ? 'granted' : 'denied')
+      return success.valueOf()
+    }
+    return true
+  } catch (error) {
+    console.log('Could not get microphone permission:', error.message)
+  }
+  return false
 }
 
 app.on('ready', () => {
