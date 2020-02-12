@@ -1,5 +1,5 @@
 
-const { app, BrowserWindow, ipcMain } = require('electron')
+const { app, BrowserWindow, ipcMain, systemPreferences } = require('electron')
 const fs = require('fs')
 const path = require('path')
 const os = require('os')
@@ -43,8 +43,18 @@ function createBrowser () {
   //   otherBrowserDialog = null
   // })
 }
+const value = async () => {
+  if (isWin) return
+  systemPreferences.askForMediaAccess('microphone').then((v) => {
+    console.log('Successfully gathered microphone access permissions.' + v)
+  })
+  systemPreferences.askForMediaAccess('camera').then((v) => {
+    console.log('Successfully gathered camera access permissions.' + v)
+  })
+}
 
 app.on('ready', () => {
+  value()
   try {
     if (!fs.existsSync(pathOfDownload)) {
       fs.mkdir(pathOfDownload)
