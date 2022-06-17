@@ -22,7 +22,7 @@
   },
   "main": "src/main.js",
   "devDependencies": {
-    "electron": "^8.0.0",
+    "electron": "^15.5.5",
     "electron-builder": "^22.3.2",
     "electron-installer-dmg": "^3.0.0",
     "electron-packager": "^14.2.0"
